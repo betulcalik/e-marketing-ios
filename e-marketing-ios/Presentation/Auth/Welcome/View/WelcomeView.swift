@@ -40,15 +40,6 @@ extension WelcomeView {
             ) {
                 router.push(.login)
             }
-            
-            AppButton(
-                title: "auth.welcome.register",
-                style: .outline,
-                icon: Image(systemName: "person"),
-                identifier: "welcome.register"
-            ) {
-                router.push(.register)
-            }
         }
     }
 }

@@ -11,7 +11,6 @@ import Observation
 /// App-wide navigation route
 enum AppRoute: Hashable {
     case login
-    case register
 }
 
 @Observable

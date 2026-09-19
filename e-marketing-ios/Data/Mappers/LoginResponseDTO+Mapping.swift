@@ -10,8 +10,8 @@ import Foundation
 extension LoginResponseDTO {
     var toDomain: AuthSession {
         AuthSession(
-            accessToken: accessToken,
-            refreshToken: refreshToken,
+            accessToken: accessToken ?? "",
+            refreshToken: refreshToken ?? "",
             user: User(
                 id: id,
                 username: username,

@@ -6,7 +6,7 @@
 //
 
 struct AuthSession {
-    let accessToken: String?
-    let refreshToken: String?
+    let accessToken: String
+    let refreshToken: String
     let user: User?
 }

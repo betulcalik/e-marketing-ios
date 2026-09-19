@@ -23,8 +23,6 @@ struct AppDestinationView: View {
                         router.reset()
                     }
             ))
-        case .register:
-            EmptyView()
         }
     }
 }

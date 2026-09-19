@@ -9,8 +9,14 @@ import SwiftUI
 
 @main
 struct e_marketing_iosApp: App {
-    @State private var appSession = AppSessionStore()
+    @State private var appSession: AppSessionStore
     @State private var router = AppRouter()
+
+    init() {
+        let sessionStore = AppSessionStore(keychainTokenStore: KeychainTokenStore())
+        sessionStore.restore()
+        _appSession = State(initialValue: sessionStore)
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -29,7 +35,7 @@ extension e_marketing_iosApp {
     @ViewBuilder
     private var rootContent: some View {
         if appSession.isAuthenticated {
-            EmptyView()   // TODO: HomeView
+            EmptyView() // TODO: Home View
         } else {
             WelcomeView()
         }
