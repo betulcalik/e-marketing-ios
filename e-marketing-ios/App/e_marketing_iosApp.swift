@@ -9,9 +9,29 @@ import SwiftUI
 
 @main
 struct e_marketing_iosApp: App {
+    @State private var appSession = AppSessionStore()
+    @State private var router = AppRouter()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack(path: $router.path) {
+                rootContent
+                    .appDestinations(appSession: appSession, router: router)
+            }
+            .environment(appSession)
+            .environment(router)
+        }
+    }
+}
+
+// MARK: - Extensions
+extension e_marketing_iosApp {
+    @ViewBuilder
+    private var rootContent: some View {
+        if appSession.isAuthenticated {
+            EmptyView()   // TODO: HomeView
+        } else {
+            WelcomeView()
         }
     }
 }
