@@ -43,6 +43,7 @@ extension HomeView {
                     greetingHeader
                     bannersSection
                     categoriesSection
+                    forYouSection
                 }
             }
             .padding(.vertical, 16)
@@ -93,6 +94,25 @@ extension HomeView {
                 router.push(.categories)
             }
         )
+    }
+    
+    // MARK: - Featured products
+    private var forYouSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("home.section.forYou")
+                .font(.title3.bold())
+                .padding(.horizontal, 24)
+            
+            LazyVGrid(columns: [GridItem(.flexible())], spacing: 12) {
+                ForEach(viewModel.featuredProducts) { product in
+                    ProductCard(product: product) { }
+                        .onTapGesture {
+                            // TODO.
+                        }
+                }
+            }
+            .padding(.horizontal, 24)
+        }
     }
     
     // MARK: - Helpers

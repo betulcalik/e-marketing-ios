@@ -380,6 +380,16 @@
         }
       }
     },
+    "home.section.forYou" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selected for You"
+          }
+        }
+      }
+    },
     "products.title" : {
       "localizations" : {
         "en" : {

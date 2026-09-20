@@ -11,6 +11,8 @@ import Foundation
 final class HomeViewModel {
 
     private(set) var categories: [String] = []
+    private(set) var featuredProducts: [Product] = []
+    
     private(set) var isSubmitting = false
     private(set) var errorMessage: String?
 
@@ -33,7 +35,11 @@ final class HomeViewModel {
         defer { isSubmitting = false }
 
         do {
-            categories = try await homeUseCase.getCategories()
+            async let categoriesTask = homeUseCase.getCategories()
+            async let featuredTask = homeUseCase.getFeaturedProducts()
+            
+            categories = try await categoriesTask
+            featuredProducts = try await featuredTask
         } catch is CancellationError {
             // No error
         } catch let error as AppError {

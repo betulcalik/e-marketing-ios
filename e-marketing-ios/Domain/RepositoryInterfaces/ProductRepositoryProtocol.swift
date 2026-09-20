@@ -11,4 +11,5 @@ protocol ProductRepositoryProtocol {
     func categories() async throws -> [String]
     func products(limit: Int, skip: Int) async throws -> Page<Product>
     func products(category: String, limit: Int, skip: Int) async throws -> Page<Product>
+    func featuredProducts(limit: Int) async throws -> [Product]
 }

@@ -7,6 +7,7 @@
 
 protocol HomeUseCaseProtocol: AnyObject {
     func getCategories() async throws -> [String]
+    func getFeaturedProducts() async throws -> [Product]
 }
 
 final class HomeUseCase: HomeUseCaseProtocol {
@@ -18,5 +19,9 @@ final class HomeUseCase: HomeUseCaseProtocol {
     
     func getCategories() async throws -> [String] {
         try await productRepository.categories()
+    }
+    
+    func getFeaturedProducts() async throws -> [Product] {
+        try await productRepository.featuredProducts(limit: 6)
     }
 }
