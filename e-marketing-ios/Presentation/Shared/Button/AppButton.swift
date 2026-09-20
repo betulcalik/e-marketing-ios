@@ -105,11 +105,4 @@ extension AppButton {
         isLoading: true,
         identifier: "preview.loading"
     ) { }
-    
-    AppButton(
-        title: "auth.welcome.signInWithEmail",
-        style: .outline,
-        icon: Image(systemName: "envelope"),
-        identifier: "preview.outline"
-    ) { }
 }

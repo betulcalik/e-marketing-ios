@@ -37,7 +37,10 @@ extension ProductsView {
         if viewModel.shouldShowLoading {
             LoadingView()
         } else if viewModel.shouldShowError {
-            errorRetryView
+            ErrorView(message: viewModel.errorMessage ?? "", identifier: "products.retry") {
+                Task { await viewModel.loadFirstPage() }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             ProductsList(
                 products: viewModel.products,
@@ -50,24 +53,6 @@ extension ProductsView {
                 }
             )
         }
-    }
-
-    private var errorRetryView: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "wifi.exclamationmark")
-                .font(.system(size: 40))
-                .foregroundStyle(.secondary)
-            Text(viewModel.errorMessage ?? "")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-            AppButton(title: "home.error.retry", identifier: "products.retry") {
-                Task { await viewModel.loadFirstPage() }
-            }
-            .padding(.horizontal, 48)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.horizontal, 24)
     }
 }
 

@@ -14,15 +14,6 @@ struct AppDestinationView: View {
 
     var body: some View {
         switch route {
-        case .login:
-            LoginView(
-                viewModel: LoginViewModel(
-                    loginUseCase: LoginUseCase(loginRepository: LoginRepositoryImpl(client: HTTPClient(keychainTokenStore: KeychainTokenStore()))),
-                    onAuthenticated: { session in
-                        appSession.login(session: session)
-                        router.reset()
-                    }
-                ))
         case .categories:
             CategoriesView(viewModel: CategoriesViewModel(
                 homeUseCase: HomeUseCase(productRepository: ProductRepositoryImpl(client: HTTPClient(keychainTokenStore: KeychainTokenStore())))

@@ -33,6 +33,12 @@ extension HomeView {
             VStack(alignment: .leading, spacing: 24) {
                 if viewModel.shouldShowLoading {
                     LoadingView()
+                } else if viewModel.shouldShowError {
+                    ErrorView(message: viewModel.errorMessage ?? "",
+                              identifier: "home.retry") {
+                        Task { await viewModel.load() }
+                    }
+                    .frame(minHeight: 300)
                 } else {
                     greetingHeader
                     bannersSection

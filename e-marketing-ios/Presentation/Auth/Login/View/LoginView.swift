@@ -21,24 +21,67 @@ struct LoginView: View {
     }
     
     var body: some View {
-        VStack(spacing: 24) {
-            form
-            Spacer()
+        GeometryReader { proxy in
+            ScrollView {
+                content
+                .frame(maxWidth: .infinity)
+                .frame(minHeight: proxy.size.height)
+            }
+            .scrollDismissesKeyboard(.interactively)
+            .scrollIndicators(.hidden)
         }
-        .navigationTitle("auth.login.title")
-        .navigationBarTitleDisplayMode(.large)
-        .padding(.top, 16)
-        .padding(.horizontal, 20)
+        .ignoresSafeArea(.container, edges: .bottom)
+        .background(BackgroundView())
         .simultaneousGesture(TapGesture().onEnded { focusedField = nil })
         .errorAlert(message: viewModel.errorMessage, onDismiss: viewModel.clearError)
     }
 }
 
 // MARK: - Extensions
-/// UI Components
 extension LoginView {
-    private var form: some View {
-        VStack(alignment: .leading, spacing: 24) {
+    
+    private var content: some View {
+        VStack(spacing: 0) {
+            Spacer(minLength: 24)
+            headerView
+            cardView
+        }
+    }
+    
+    private var headerView: some View {
+        VStack(spacing: 8) {
+            Image(.appLogo)
+                .resizable()
+                .scaledToFit()
+                .frame(height: 120)
+                .foregroundStyle(.white)
+                .accessibilityHidden(true)
+
+            VStack(spacing: 2) {
+                Text("app.name")
+                    .font(.system(size: 34, weight: .bold))
+                    .foregroundStyle(.white)
+
+                Text("auth.app.tagline")
+                    .font(.subheadline)
+                    .foregroundStyle(.white.opacity(0.85))
+            }
+        }
+        .padding(.bottom, 32)
+    }
+    
+    private var cardView: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("auth.login.welcome")
+                    .font(.title2.bold())
+                    .foregroundStyle(.primary)
+                
+                Text("auth.login.subtitle")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            
             AppTextField(
                 title: "auth.field.username",
                 text: $viewModel.username,
@@ -46,6 +89,7 @@ extension LoginView {
                 contentType: .username,
                 submitLabel: .next,
                 identifier: "login.usernameField",
+                leadingIcon: "person",
                 field: .username,
                 focus: $focusedField,
                 onSubmit: { focusedField = .password }
@@ -59,39 +103,37 @@ extension LoginView {
                 contentType: .password,
                 submitLabel: .go,
                 identifier: "login.passwordField",
+                leadingIcon: "lock",
                 field: .password,
                 focus: $focusedField,
-                onSubmit: { }
+                onSubmit: { submit() }
             )
             
-            submitButton
+            AppButton(title: "auth.login.cta",
+                      isLoading: viewModel.isSubmitting,
+                      identifier: "login.submitButton") {
+                submit()
+            }
+            .disabled(!viewModel.canSubmit)
+            .padding(.top, 8)
         }
+        .padding(24)
+        .padding(.bottom, 16)
+        .frame(maxWidth: .infinity, alignment: .top)
+        .background(
+            UnevenRoundedRectangle(topLeadingRadius: 28, topTrailingRadius: 28)
+                .fill(Color(.systemBackground))
+                .ignoresSafeArea(edges: .bottom)
+        )
     }
     
-    private var submitButton: some View {
-        AppButton(
-            title: "auth.login.cta",
-            isLoading: viewModel.isSubmitting,
-            identifier: "login.submitButton"
-        ) {
-            submit()
-        }
-        .disabled(!viewModel.canSubmit)
-    }
-}
-
-/// Actions
-extension LoginView {
     private func submit() {
         focusedField = nil
-        
-        Task {
-            await viewModel.submit()
-        }
+        Task { await viewModel.submit() }
     }
 }
 
 // MARK: - Previews
-#Preview {
+#Preview("Login") {
     LoginView(viewModel: .preview)
 }

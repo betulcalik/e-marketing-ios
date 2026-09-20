@@ -10,7 +10,6 @@ import Observation
 
 /// App-wide navigation route
 enum AppRoute: Hashable {
-    case login
     case categories
     case products(category: String?)
 }

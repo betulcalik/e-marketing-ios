@@ -34,7 +34,10 @@ extension CategoriesView {
         if viewModel.isLoading, viewModel.categories.isEmpty {
             LoadingView()
         } else if viewModel.categories.isEmpty, viewModel.errorMessage != nil {
-            errorRetryView
+            ErrorView(message: viewModel.errorMessage ?? "", identifier: "categories.retry") {
+                Task { await viewModel.load() }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             ScrollView {
                 CategoryTileGrid(categories: viewModel.categories) { category in
@@ -44,24 +47,6 @@ extension CategoriesView {
                 .padding(.vertical, 16)
             }
         }
-    }
-
-    private var errorRetryView: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "wifi.exclamationmark")
-                .font(.system(size: 40))
-                .foregroundStyle(.secondary)
-            Text(viewModel.errorMessage ?? "")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-            AppButton(title: "home.error.retry", identifier: "categories.retry") {
-                Task { await viewModel.load() }
-            }
-            .padding(.horizontal, 48)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.horizontal, 24)
     }
 }
 

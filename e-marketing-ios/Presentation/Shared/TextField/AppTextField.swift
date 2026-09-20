@@ -17,6 +17,7 @@ struct AppTextField<Field: Hashable>: View {
     var contentType: UITextContentType? = nil
     var submitLabel: SubmitLabel = .next
     var identifier: String? = nil
+    var leadingIcon: String? = nil
 
     let field: Field
     let focus: FocusState<Field?>.Binding
@@ -29,6 +30,12 @@ struct AppTextField<Field: Hashable>: View {
             titleView
 
             HStack(spacing: 8) {
+                if let leadingIcon {
+                    Image(systemName: leadingIcon)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                
                 fieldView
                 
                 if isSecure {
