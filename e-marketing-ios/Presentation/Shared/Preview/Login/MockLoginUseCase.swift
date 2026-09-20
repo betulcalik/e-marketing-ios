@@ -17,7 +17,9 @@ final class MockLoginUseCase: LoginUseCaseProtocol {
             user: User(id: 1,
                        username: username,
                        email: "\(username)@example.com",
-                       firstName: "Emily")
+                       firstName: "Emily",
+                       lastName: "Doe",
+                       image: URL(string: ""))
         )
     }
 }

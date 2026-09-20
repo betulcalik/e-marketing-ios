@@ -14,6 +14,12 @@ struct e_marketing_iosApp: App {
     @State private var homeViewModel: HomeViewModel
     @State private var loginViewModel: LoginViewModel
     
+    private let sessionUseCase = SessionUseCase(
+        loginRepository: LoginRepositoryImpl(
+            client: HTTPClient(keychainTokenStore: KeychainTokenStore())
+        )
+    )
+    
     init() {
         let keychain = KeychainTokenStore()
         let sessionStore = AppSessionStore(keychainTokenStore: keychain)
@@ -38,10 +44,13 @@ struct e_marketing_iosApp: App {
 
     var body: some Scene {
         WindowGroup {
-            rootContent
-            .appDestinations(appSession: appSession, router: router)
+            NavigationStack(path: $router.path) {
+                rootContent
+                    .appDestinations(appSession: appSession, router: router)
+            }
             .environment(appSession)
             .environment(router)
+            .task { await restoreUserIfNeeded() }
         }
     }
 }
@@ -54,6 +63,20 @@ extension e_marketing_iosApp {
             HomeView(viewModel: homeViewModel)
         } else {
             LoginView(viewModel: loginViewModel)
+        }
+    }
+    
+    private func restoreUserIfNeeded() async {
+        guard appSession.isAuthenticated, appSession.session?.user == nil else { return }
+        
+        do {
+            let user = try await sessionUseCase.getCurrentUser()
+            appSession.updateUser(user)
+        } catch let error as AppError where error.isSessionExpired {
+            appSession.logout()
+            router.reset()
+        } catch {
+            // Display anonymous welcome
         }
     }
 }

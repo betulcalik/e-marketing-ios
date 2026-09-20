@@ -7,4 +7,5 @@
 
 protocol LoginRepositoryProtocol {
     func login(username: String, password: String) async throws -> AuthSession
+    func me() async throws -> User
 }

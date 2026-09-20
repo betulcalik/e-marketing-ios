@@ -12,4 +12,6 @@ struct User: Identifiable {
     let username: String?
     let email: String?
     let firstName: String?
+    let lastName: String?
+    let image: URL?
 }

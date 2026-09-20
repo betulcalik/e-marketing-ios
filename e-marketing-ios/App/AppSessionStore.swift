@@ -35,8 +35,17 @@ final class AppSessionStore {
         isAuthenticated = false
     }
     
+    func updateUser(_ user: User) {
+        session = AuthSession(accessToken: session?.accessToken ?? "",
+                              refreshToken: session?.refreshToken ?? "",
+                              user: user)
+    }
+    
     func restore() {
-        guard keychainTokenStore.read() != nil else { return }
+        guard let tokenPair = keychainTokenStore.read() else { return }
         isAuthenticated = true
+        session = AuthSession(accessToken: tokenPair.accessToken,
+                              refreshToken: tokenPair.refreshToken,
+                              user: nil)
     }
 }

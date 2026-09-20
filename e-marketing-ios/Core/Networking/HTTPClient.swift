@@ -36,6 +36,8 @@ final class HTTPClient: HTTPClientProtocol {
     // MARK: - Private
     private func performRequest(for endpoint: Endpoint) async throws -> Data {
         let request = try makeRequest(for: endpoint)
+        
+        debugLog("→ [\(endpoint.path)] \(request.httpMethod ?? "") • \(request.url?.absoluteString ?? "") • body: \(redactedBodyString(of: request.httpBody))")
 
         do {
             let (data, response) = try await session.data(for: request)
@@ -43,7 +45,7 @@ final class HTTPClient: HTTPClientProtocol {
                 throw AppError.invalidResponse
             }
 
-            debugLog("Response: status code: \(http.statusCode) • body: \(bodyString(of: data))")   // TODO: Remove token
+            debugLog("← [\(endpoint.path)] \(http.statusCode) • \(redactedBodyString(of: data))")
 
             try validate(statusCode: http.statusCode)
             return data
@@ -84,7 +86,6 @@ final class HTTPClient: HTTPClientProtocol {
             request.setValue("Bearer \(tokenPair.accessToken)", forHTTPHeaderField: "Authorization")
         }
         
-        debugLog("Request: \(request.httpMethod ?? "") \(url.absoluteString) • body: \(maskedBody(of: request))")
         return request
     }
 
@@ -93,21 +94,29 @@ final class HTTPClient: HTTPClientProtocol {
         debugPrint("🌐 [HTTP] \(message)")
     }
 
-    private func maskedBody(of request: URLRequest) -> String {
-        guard let body = request.httpBody,
-              let json = try? JSONSerialization.jsonObject(with: body),
-              var dict = json as? [String: Any] else { return "-" }
-
-        if dict["password"] != nil {
-            dict["password"] = "••••••"
+    private func redactedBodyString(of data: Data?) -> String {
+        guard let data,
+              let json = try? JSONSerialization.jsonObject(with: data) else {
+            return "-"
         }
-        return String(describing: dict)
+        return String(describing: redact(json))
     }
-
-    private func bodyString(of data: Data) -> String {
-        String(data: data, encoding: .utf8) ?? "-"
+    
+    private func redact(_ value: Any) -> Any {
+        let sensitiveKeys: Set<String> = ["accessToken", "refreshToken", "token", "password"]
+        
+        if var dict = value as? [String: Any] {
+            for (key, val) in dict {
+                dict[key] = sensitiveKeys.contains(key) ? "•••" : redact(val)
+            }
+            return dict
+        }
+        if let array = value as? [Any] {
+            return array.map(redact)
+        }
+        return value
     }
-
+    
     private func validate(statusCode: Int) throws {
         switch statusCode {
         case 200...299:

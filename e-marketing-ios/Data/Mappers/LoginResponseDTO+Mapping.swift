@@ -16,7 +16,9 @@ extension LoginResponseDTO {
                 id: id,
                 username: username,
                 email: email,
-                firstName: firstName
+                firstName: firstName,
+                lastName: lastName,
+                image: image.flatMap(URL.init(string:))
             )
         )
     }

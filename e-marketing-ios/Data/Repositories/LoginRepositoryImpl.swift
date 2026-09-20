@@ -24,4 +24,9 @@ final class LoginRepositoryImpl: LoginRepositoryProtocol {
         
         return try await client.send(endpoint, as: LoginResponseDTO.self).toDomain
     }
+    
+    func me() async throws -> User {
+        let endpoint = Endpoint(path: "auth/me")
+        return try await client.send(endpoint, as: UserResponseDTO.self).toDomain
+    }
 }
