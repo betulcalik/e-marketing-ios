@@ -15,6 +15,7 @@ final class ProductsViewModel {
     private(set) var isLoadingMore = false
     private(set) var isFinished = false
     private(set) var errorMessage: String?
+    private(set) var totalCount: Int?
     
     let category: String?
     var shouldShowLoading: Bool { products.isEmpty && isLoading }
@@ -36,23 +37,17 @@ final class ProductsViewModel {
     
     // MARK: - Pagination
     func loadFirstPage() async {
-        guard !isLoading, !isLoadingMore else {
-            return
-        }
+        guard !isLoading, !isLoadingMore else { return }
         
         isLoading = true
         errorMessage = nil
         isFinished = false
-        defer {
-            isLoading = false
-        }
+        defer { isLoading = false }
         
         do {
-            let page = try await productsUseCase.getProducts(
-                category: category,
-                limit: pageSize,
-                skip: 0)
+            let page = try await productsUseCase.getProducts(category: category, limit: pageSize, skip: 0)
             products = page.items
+            totalCount = page.total
             nextSkip = page.nextSkip
             isFinished = !page.hasMore
         } catch is CancellationError {
@@ -70,16 +65,18 @@ final class ProductsViewModel {
     }
     
     func loadMoreIfNeeded(current: Product) async {
+        guard current.id == products.last?.id else { return }
+        await loadMore()
+    }
+    
+    func loadMore() async {
         guard !isLoading, !isLoadingMore, !isFinished, errorMessage == nil else { return }
         
-        isLoading = true
+        isLoadingMore = true
         defer { isLoadingMore = false }
         
         do {
-            let page = try await productsUseCase.getProducts(
-                category: category,
-                limit: pageSize,
-                skip: nextSkip)
+            let page = try await productsUseCase.getProducts(category: category, limit: pageSize, skip: nextSkip)
             products.append(contentsOf: page.items)
             nextSkip = page.nextSkip
             isFinished = !page.hasMore

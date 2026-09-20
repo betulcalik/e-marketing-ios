@@ -390,6 +390,16 @@
         }
       }
     },
+    "products.total %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total: %lld"
+          }
+        }
+      }
+    },
     "profile.guest" : {
       "localizations" : {
         "en" : {

@@ -42,16 +42,25 @@ extension ProductsView {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
-            ProductsList(
-                products: viewModel.products,
-                isLoadingMore: viewModel.isLoadingMore,
-                onProductAppear: { product in
-                    Task { await viewModel.loadMoreIfNeeded(current: product) }
-                },
-                onAddToCart: { _ in
-                    // TODO: Add to cart
+            VStack(spacing: 12) {
+                if let total = viewModel.totalCount {
+                    Text(String(localized: "products.total \(total)"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 20)
+                        .padding(.top, 8)
                 }
-            )
+                
+                ProductsList(
+                    products: viewModel.products,
+                    isLoadingMore: viewModel.isLoadingMore,
+                    onProductAppear: { product in
+                        Task { await viewModel.loadMoreIfNeeded(current: product) }
+                    },
+                    onAddToCart: { _ in }
+                )
+            }
         }
     }
 }
