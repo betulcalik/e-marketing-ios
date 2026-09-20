@@ -11,19 +11,24 @@ import SwiftUI
 struct e_marketing_iosApp: App {
     @State private var appSession: AppSessionStore
     @State private var router = AppRouter()
-
+    @State private var homeViewModel: HomeViewModel
+    
     init() {
-        let sessionStore = AppSessionStore(keychainTokenStore: KeychainTokenStore())
+        let keychain = KeychainTokenStore()
+        let sessionStore = AppSessionStore(keychainTokenStore: keychain)
         sessionStore.restore()
         _appSession = State(initialValue: sessionStore)
+        _homeViewModel = State(initialValue: HomeViewModel(
+            homeUseCase: HomeUseCase(
+                productRepository: ProductRepositoryImpl(
+                    client: HTTPClient(keychainTokenStore: keychain)
+                )
+            )))
     }
 
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $router.path) {
-                rootContent
-                    .appDestinations(appSession: appSession, router: router)
-            }
+            rootContent
             .environment(appSession)
             .environment(router)
         }
@@ -35,11 +40,15 @@ extension e_marketing_iosApp {
     @ViewBuilder
     private var rootContent: some View {
         if appSession.isAuthenticated {
-            HomeView(viewModel: HomeViewModel(
-                homeUseCase: HomeUseCase(productRepository: ProductRepositoryImpl(client: HTTPClient()))
-            ))
+            NavigationStack(path: $router.path) {
+                HomeView(viewModel: homeViewModel)
+                    .appDestinations(appSession: appSession, router: router)
+            }
         } else {
-            WelcomeView()
+            NavigationStack(path: $router.path) {
+                WelcomeView()
+                    .appDestinations(appSession: appSession, router: router)
+            }
         }
     }
 }

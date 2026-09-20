@@ -17,14 +17,23 @@ struct AppDestinationView: View {
         case .login:
             LoginView(
                 viewModel: LoginViewModel(
-                    loginUseCase: LoginUseCase(loginRepository: LoginRepositoryImpl(client: HTTPClient())),
+                    loginUseCase: LoginUseCase(loginRepository: LoginRepositoryImpl(client: HTTPClient(keychainTokenStore: KeychainTokenStore()))),
                     onAuthenticated: { session in
                         appSession.login(session: session)
                         router.reset()
                     }
-            ))
+                ))
         case .products(let category):
-            ProductsView(category: category)
+            ProductsView(viewModel: ProductsViewModel(
+                category: category,
+                productsUseCase: ProductsUseCase(
+                    productRepository: ProductRepositoryImpl(client: HTTPClient(keychainTokenStore: KeychainTokenStore()))
+                ),
+                onSessionExpired: {
+                    appSession.logout()
+                    router.reset()
+                }
+            ))
         }
     }
 }

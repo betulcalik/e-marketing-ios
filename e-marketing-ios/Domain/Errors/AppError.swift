@@ -41,4 +41,9 @@ extension AppError {
             String(localized: "error.generic")
         }
     }
+    
+    var isSessionExpired: Bool {
+        if case .clientError(401) = self { return true }
+        return false
+    }
 }

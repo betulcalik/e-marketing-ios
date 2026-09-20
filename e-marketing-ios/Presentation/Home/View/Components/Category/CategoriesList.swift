@@ -36,6 +36,6 @@ struct CategoriesList: View {
 #Preview("CategoriesList") {
     CategoriesList(categories: ["beauty", "fragrances", "laptops", "smartphones"]) { _ in }
         .padding(.vertical, 16)
-        .background(Color(.systemGroupedBackground))
+        .background(Color(.screenBackground))
 }
 #endif

@@ -34,6 +34,8 @@ final class HomeViewModel {
 
         do {
             categories = try await homeUseCase.getCategories()
+        } catch is CancellationError {
+            // No error
         } catch let error as AppError {
             errorMessage = error.userMessage
         } catch {

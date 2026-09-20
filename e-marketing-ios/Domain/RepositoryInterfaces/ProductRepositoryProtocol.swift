@@ -9,5 +9,6 @@ import Foundation
 
 protocol ProductRepositoryProtocol {
     func categories() async throws -> [String]
-    // TODO: func products()
+    func products(limit: Int, skip: Int) async throws -> Page<Product>
+    func products(category: String, limit: Int, skip: Int) async throws -> Page<Product>
 }

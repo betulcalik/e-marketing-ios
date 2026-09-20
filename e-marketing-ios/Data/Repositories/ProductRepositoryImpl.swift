@@ -19,4 +19,28 @@ final class ProductRepositoryImpl: ProductRepositoryProtocol {
         let endpoint = Endpoint(path: "products/category-list")
         return try await client.send(endpoint, as: [String].self)
     }
+    
+    func products(limit: Int, skip: Int) async throws -> Page<Product> {
+        let endpoint = Endpoint(
+            path: "auth/products",
+            queryItems: [
+                URLQueryItem(name: "limit", value: String(limit)),
+                URLQueryItem(name: "skip", value: String(skip)),
+                URLQueryItem(name: "select", value: "title,thumbnail,price,discountPercentage,rating,category")
+            ]
+        )
+        return try await client.send(endpoint, as: ProductListResponseDTO.self).toDomain
+    }
+    
+    func products(category: String, limit: Int, skip: Int) async throws -> Page<Product> {
+        let endpoint = Endpoint(
+            path: "auth/products/category/\(category)",
+            queryItems: [
+                URLQueryItem(name: "limit", value: String(limit)),
+                URLQueryItem(name: "skip", value: String(skip)),
+                URLQueryItem(name: "select", value: "title,thumbnail,price,discountPercentage,rating,category")
+            ]
+        )
+        return try await client.send(endpoint, as: ProductListResponseDTO.self).toDomain
+    }
 }

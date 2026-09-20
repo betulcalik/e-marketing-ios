@@ -15,9 +15,11 @@ protocol HTTPClientProtocol {
 final class HTTPClient: HTTPClientProtocol {
 
     private let session: URLSession
+    private let keychainTokenStore: KeychainTokenStoring
 
-    init(session: URLSession = .shared) {
+    init(session: URLSession = .shared, keychainTokenStore: KeychainTokenStoring) {
         self.session = session
+        self.keychainTokenStore = keychainTokenStore
     }
 
     func send<T: Decodable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T {
@@ -46,25 +48,42 @@ final class HTTPClient: HTTPClientProtocol {
             try validate(statusCode: http.statusCode)
             return data
         } catch let error as URLError {
+            if error.code == .cancelled {
+                throw CancellationError()
+            }
+            
             debugLog("❌ Error: \(error)")
             throw appError(from: error)
         }
     }
 
     private func makeRequest(for endpoint: Endpoint) throws -> URLRequest {
-        guard let url = URL(string: APIConstants.baseURL)?
-            .appending(path: endpoint.path) else {
+        guard let base = URL(string: APIConstants.baseURL)?.appending(path: endpoint.path) else {
+            throw AppError.invalidURL
+        }
+
+        var components = URLComponents(url: base, resolvingAgainstBaseURL: false)
+        if !endpoint.queryItems.isEmpty {
+            components?.queryItems = endpoint.queryItems
+        }
+
+        guard let url = components?.url else {
             throw AppError.invalidURL
         }
 
         var request = URLRequest(url: url)
         request.httpMethod = endpoint.method.rawValue
         request.allHTTPHeaderFields = endpoint.headers
+        
         if let body = endpoint.body {
             request.httpBody = try JSONEncoder().encode(body)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
 
+        if let tokenPair = keychainTokenStore.read() {
+            request.setValue("Bearer \(tokenPair.accessToken)", forHTTPHeaderField: "Authorization")
+        }
+        
         debugLog("Request: \(request.httpMethod ?? "") \(url.absoluteString) • body: \(maskedBody(of: request))")
         return request
     }

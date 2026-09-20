@@ -55,7 +55,7 @@ struct CategoryCard: View {
 // MARK: - Helpers
 private extension CategoryCard {
     var displayName: String {
-        category.split(separator: "-").map(\.capitalized).joined(separator: " ")
+        category.categoryDisplayName
     }
 
     var iconName: String {
@@ -80,5 +80,5 @@ private extension CategoryCard {
 #Preview {
     CategoryCard(category: "womens-bag") { }
         .padding(24)
-        .background(Color(.systemGroupedBackground))
+        .background(Color(.screenBackground))
 }

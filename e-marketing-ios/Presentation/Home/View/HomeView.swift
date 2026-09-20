@@ -20,7 +20,7 @@ struct HomeView: View {
     var body: some View {
         content
             .toolbar(.hidden, for: .navigationBar)
-            .background(Color(.systemGroupedBackground))
+            .background(Color(.screenBackground))
             .task { await viewModel.load() }
             .refreshable { await viewModel.load() }
     }
@@ -45,6 +45,7 @@ extension HomeView {
         .scrollIndicators(.hidden)
     }
 
+    // MARK: - Header
     private var greetingHeader: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(greeting)
@@ -53,8 +54,24 @@ extension HomeView {
             Text("home.greeting.subtitle")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
+            
+            Spacer()
+            logoutButton
         }
         .padding(.horizontal, 12)
+    }
+    
+    private var logoutButton: some View {
+        Button {
+            appSession.logout()
+            router.reset()
+        } label: {
+            Image(systemName: "rectangle.portrait.and.arrow.right")
+                .font(.body)
+                .foregroundStyle(.secondary)
+        }
+        .accessibilityIdentifier("home.logout")
+        .accessibilityLabel(Text("home.logout.title"))
     }
     
     // MARK: - Banners

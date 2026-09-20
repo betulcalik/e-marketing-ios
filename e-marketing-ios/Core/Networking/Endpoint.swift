@@ -30,19 +30,29 @@ struct Endpoint {
     let path: String
     let method: HTTPMethod
     let headers: [String: String]
+    let queryItems: [URLQueryItem]
     let body: AnyEncodable?
 
-    init(path: String, method: HTTPMethod = .get, headers: [String: String] = [:]) {
+    init(path: String,
+         method: HTTPMethod = .get,
+         headers: [String: String] = [:],
+         queryItems: [URLQueryItem] = []) {
         self.path = path
         self.method = method
         self.headers = headers
+        self.queryItems = queryItems
         self.body = nil
     }
 
-    init(path: String, method: HTTPMethod, headers: [String: String] = [:], body: some Encodable) {
+    init(path: String,
+         method: HTTPMethod,
+         headers: [String: String] = [:],
+         queryItems: [URLQueryItem] = [],
+         body: some Encodable) {
         self.path = path
         self.method = method
         self.headers = headers
+        self.queryItems = queryItems
         self.body = AnyEncodable(body)
     }
 }

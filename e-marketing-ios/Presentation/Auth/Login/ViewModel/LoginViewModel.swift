@@ -45,6 +45,8 @@ final class LoginViewModel {
                 password: password
             )
             onAuthenticated(session)
+        } catch is CancellationError {
+            // No error
         } catch let error as AppError {
             errorMessage = error.userMessage
         } catch {
