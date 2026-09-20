@@ -47,21 +47,21 @@ extension ProfileView {
         .clipShape(Circle())
     }
     
-    private var displayName: String {
+    private var displayName: Text {
         guard let user = appSession.session?.user else {
-            return String(localized: "profile.guest")
+            return Text("profile.guest")
         }
         
         let name = [user.firstName, user.lastName]
             .compactMap { $0 }
             .joined(separator: " ")
         
-        return name.isEmpty ? String(localized: "profile.guest") : name
+        return name.isEmpty ? Text("profile.guest") : Text(verbatim: name)
     }
 
     private var userInfo: some View {
         VStack(spacing: 6) {
-            Text(displayName)
+            displayName
                 .font(.title3.bold())
 
             Text(appSession.session?.user?.email ?? "")

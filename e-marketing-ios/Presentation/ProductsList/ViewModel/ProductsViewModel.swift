@@ -14,12 +14,12 @@ final class ProductsViewModel {
     private(set) var isLoading = false
     private(set) var isLoadingMore = false
     private(set) var isFinished = false
-    private(set) var errorMessage: String?
+    private(set) var error: AppError?
     private(set) var totalCount: Int?
     
     let category: String?
     var shouldShowLoading: Bool { products.isEmpty && isLoading }
-    var shouldShowError: Bool { products.isEmpty && errorMessage != nil }
+    var shouldShowError: Bool { products.isEmpty && error != nil }
     
     private let pageSize = 10
     private var nextSkip = 0
@@ -40,7 +40,7 @@ final class ProductsViewModel {
         guard !isLoading, !isLoadingMore else { return }
         
         isLoading = true
-        errorMessage = nil
+        error = nil
         isFinished = false
         defer { isLoading = false }
         
@@ -58,9 +58,9 @@ final class ProductsViewModel {
                 return
             }
             
-            errorMessage = error.userMessage
+            self.error = error
         } catch {
-            errorMessage = String(localized: "error.generic")
+            self.error = .unknown
         }
     }
     
@@ -70,7 +70,7 @@ final class ProductsViewModel {
     }
     
     func loadMore() async {
-        guard !isLoading, !isLoadingMore, !isFinished, errorMessage == nil else { return }
+        guard !isLoading, !isLoadingMore, !isFinished, error == nil else { return }
         
         isLoadingMore = true
         defer { isLoadingMore = false }
@@ -88,13 +88,13 @@ final class ProductsViewModel {
                 return
             }
             
-            errorMessage = error.userMessage
+            self.error = error
         } catch {
-            errorMessage = String(localized: "error.generic")
+            self.error = .unknown
         }
     }
     
     func clearError() {
-        errorMessage = nil
+        error = nil
     }
 }

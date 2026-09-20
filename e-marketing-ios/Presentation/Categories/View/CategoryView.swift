@@ -33,8 +33,8 @@ extension CategoriesView {
     private var content: some View {
         if viewModel.isLoading, viewModel.categories.isEmpty {
             LoadingView()
-        } else if viewModel.categories.isEmpty, viewModel.errorMessage != nil {
-            ErrorView(message: viewModel.errorMessage ?? "", identifier: "categories.retry") {
+        } else if viewModel.categories.isEmpty, viewModel.error != nil {
+            ErrorView(error: viewModel.error ?? .unknown, identifier: "categories.retry") {
                 Task { await viewModel.load() }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

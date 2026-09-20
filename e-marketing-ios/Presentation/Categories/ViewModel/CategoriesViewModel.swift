@@ -13,7 +13,7 @@ final class CategoriesViewModel {
 
     private(set) var categories: [String] = []
     private(set) var isLoading = false
-    private(set) var errorMessage: String?
+    private(set) var error: AppError?
 
     private let homeUseCase: HomeUseCaseProtocol
 
@@ -25,7 +25,7 @@ final class CategoriesViewModel {
         guard !isLoading else { return }
 
         isLoading = true
-        errorMessage = nil
+        error = nil
         defer { isLoading = false }
 
         do {
@@ -33,13 +33,13 @@ final class CategoriesViewModel {
         } catch is CancellationError {
             // No error
         } catch let error as AppError {
-            errorMessage = error.userMessage
+            self.error = error
         } catch {
-            errorMessage = String(localized: "error.generic")
+            self.error = .unknown
         }
     }
 
     func clearError() {
-        errorMessage = nil
+        error = nil
     }
 }

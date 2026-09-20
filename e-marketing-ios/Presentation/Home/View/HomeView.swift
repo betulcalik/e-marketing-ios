@@ -34,7 +34,7 @@ extension HomeView {
                 if viewModel.shouldShowLoading {
                     LoadingView()
                 } else if viewModel.shouldShowError {
-                    ErrorView(message: viewModel.errorMessage ?? "",
+                    ErrorView(error: viewModel.error ?? .unknown,
                               identifier: "home.retry") {
                         Task { await viewModel.load() }
                     }

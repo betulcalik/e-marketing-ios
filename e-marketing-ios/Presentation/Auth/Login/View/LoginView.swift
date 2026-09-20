@@ -33,7 +33,7 @@ struct LoginView: View {
         .ignoresSafeArea(.container, edges: .bottom)
         .background(BackgroundView())
         .simultaneousGesture(TapGesture().onEnded { focusedField = nil })
-        .errorAlert(message: viewModel.errorMessage, onDismiss: viewModel.clearError)
+        .errorAlert(error: viewModel.error, onDismiss: viewModel.clearError)
     }
 }
 

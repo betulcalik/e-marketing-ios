@@ -21,7 +21,7 @@ extension View {
         }
     }
     
-    func errorAlert(message: String?, onDismiss: (() -> Void)? = nil) -> some View {
-        modifier(ErrorAlert(message: message, onDismiss: onDismiss))
+    func errorAlert(error: AppError?, onDismiss: (() -> Void)? = nil) -> some View {
+        modifier(ErrorAlert(error: error, onDismiss: onDismiss))
     }
 }

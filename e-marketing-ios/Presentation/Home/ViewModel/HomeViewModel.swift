@@ -14,11 +14,11 @@ final class HomeViewModel {
     private(set) var featuredProducts: [Product] = []
     
     private(set) var isSubmitting = false
-    private(set) var errorMessage: String?
+    private(set) var error: AppError?
 
     var shouldShowContent: Bool { !categories.isEmpty }
     var shouldShowLoading: Bool { categories.isEmpty && isSubmitting }
-    var shouldShowError: Bool { categories.isEmpty && errorMessage != nil }
+    var shouldShowError: Bool { categories.isEmpty && error != nil }
 
     private let homeUseCase: HomeUseCaseProtocol
 
@@ -31,7 +31,7 @@ final class HomeViewModel {
         guard !isSubmitting else { return }
 
         isSubmitting = true
-        errorMessage = nil
+        error = nil
         defer { isSubmitting = false }
 
         do {
@@ -43,13 +43,13 @@ final class HomeViewModel {
         } catch is CancellationError {
             // No error
         } catch let error as AppError {
-            errorMessage = error.userMessage
+            self.error = error
         } catch {
-            errorMessage = String(localized: "error.generic")
+            self.error = .unknown
         }
     }
 
     func clearError() {
-        errorMessage = nil
+        error = nil
     }
 }

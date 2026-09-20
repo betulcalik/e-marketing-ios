@@ -14,7 +14,7 @@ final class LoginViewModel {
     var password = ""
     
     private(set) var isSubmitting = false
-    private(set) var errorMessage: String?
+    private(set) var error: AppError?
     
     var canSubmit: Bool {
         !trimmedUsername.isEmpty && !password.isEmpty && !isSubmitting
@@ -36,7 +36,7 @@ final class LoginViewModel {
         }
         
         isSubmitting = true
-        errorMessage = nil
+        error = nil
         defer { isSubmitting = false }
         
         do {
@@ -48,14 +48,19 @@ final class LoginViewModel {
         } catch is CancellationError {
             // No error
         } catch let error as AppError {
-            errorMessage = error.userMessage
+            switch error {
+            case .clientError(400), .clientError(401):
+                self.error = .invalidCredentials
+            default:
+                self.error = error
+            }
         } catch {
-            errorMessage = String(localized: "error.generic")
+            self.error = .unknown
         }
     }
     
     func clearError() {
-        errorMessage = nil
+        error = nil
     }
 }
 

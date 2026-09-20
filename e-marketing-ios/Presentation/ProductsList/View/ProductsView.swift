@@ -23,7 +23,7 @@ struct ProductsView: View {
             .task { await viewModel.loadFirstPage() }
             .refreshable { await viewModel.loadFirstPage() }
             .errorAlert(
-                message: viewModel.products.isEmpty ? nil : viewModel.errorMessage,
+                error: viewModel.products.isEmpty ? nil : viewModel.error,
                 onDismiss: viewModel.clearError
             )
     }
@@ -37,7 +37,7 @@ extension ProductsView {
         if viewModel.shouldShowLoading {
             LoadingView()
         } else if viewModel.shouldShowError {
-            ErrorView(message: viewModel.errorMessage ?? "", identifier: "products.retry") {
+            ErrorView(error: viewModel.error ?? .unknown, identifier: "products.retry") {
                 Task { await viewModel.loadFirstPage() }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

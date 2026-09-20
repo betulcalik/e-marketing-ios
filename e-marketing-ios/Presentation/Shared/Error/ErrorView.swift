@@ -10,7 +10,7 @@ import SwiftUI
 /// Error state view: icon, message and retry action.
 struct ErrorView: View {
 
-    let message: String
+    let error: AppError
     var iconName: String = "wifi.exclamationmark"
     var identifier: String? = nil
     let retryAction: () -> Void
@@ -21,7 +21,7 @@ struct ErrorView: View {
                 .font(.system(size: 40))
                 .foregroundStyle(.secondary)
 
-            Text(message)
+            Text(LocalizedStringKey(error.messageKey))
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -40,7 +40,7 @@ struct ErrorView: View {
 #if DEBUG
 #Preview("ErrorView") {
     ErrorView(
-        message: "No internet connection. Check your network and try again.",
+        error: .unknown,
         identifier: "preview.retry"
     ) { }
     .padding(.vertical, 24)

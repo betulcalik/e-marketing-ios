@@ -21,24 +21,28 @@ enum AppError: Error, Equatable {
 
 // MARK: - Extensions
 extension AppError {
-    var userMessage: String {
+    
+    var messageKey: String {
         switch self {
+        case .invalidCredentials:
+            return "auth.error.invalidCredentials"
         case .clientError(let statusCode):
             switch statusCode {
-            case 400, 401:   String(localized: "auth.error.invalidCredentials")
-            case 403:        String(localized: "error.forbidden")
-            case 404:        String(localized: "error.notFound")
-            case 429:        String(localized: "error.rateLimited")
-            default:         String(localized: "error.generic")
+            case 400:   return "error.badRequest"
+            case 401:   return "error.unauthorized"
+            case 403:   return "error.forbidden"
+            case 404:   return "error.notFound"
+            case 429:   return "error.rateLimited"
+            default:    return "error.generic"
             }
         case .serverError:
-            String(localized: "error.server")
-        case .timeout, .offline:
-            String(localized: "error.connection")
-        case .invalidCredentials:
-            String(localized: "auth.error.invalidCredentials")
+            return "error.server"
+        case .timeout:
+            return "error.timeout"
+        case .offline:
+            return "error.connection"
         case .invalidURL, .invalidResponse, .decodingError, .unknown:
-            String(localized: "error.generic")
+            return "error.generic"
         }
     }
     

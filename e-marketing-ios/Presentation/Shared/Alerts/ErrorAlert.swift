@@ -8,25 +8,20 @@
 import SwiftUI
 
 struct ErrorAlert: ViewModifier {
-
-    let message: String?
-    var onDismiss: (() -> Void)? = nil
-
+    
+    let error: AppError?
+    let onDismiss: (() -> Void)?
+    
     func body(content: Content) -> some View {
         content.alert(
-            "error.alert.title",
-            isPresented: Binding(
-                get: { message != nil },
-                set: { presented in
-                    if !presented { onDismiss?() }
-                }
-            ),
-            actions: {
-                Button("common.ok", role: .cancel) { }
-            },
-            message: {
-                Text(message ?? "")
-            }
-        )
+            Text("error.alert.title"),
+            isPresented: Binding(get: { error != nil },
+                                 set: { if !$0 { onDismiss?() } }),
+            presenting: error
+        ) { _ in
+            Button("common.ok", role: .cancel) { }
+        } message: { error in
+            Text(LocalizedStringKey(error.messageKey))
+        }
     }
 }
