@@ -1,18 +1,11 @@
 //
-//  AppRoute.swift
+//  AppRouter.swift
 //  e-marketing-ios
 //
-//  Created by Betül Tarhan on 19.09.2026.
+//  Created by Betül Tarhan on 20.09.2026.
 //
 
-import Foundation
 import Observation
-
-/// App-wide navigation route
-enum AppRoute: Hashable {
-    case categories
-    case products(category: String?)
-}
 
 @Observable
 final class AppRouter {
