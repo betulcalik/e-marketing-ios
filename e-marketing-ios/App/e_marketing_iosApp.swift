@@ -44,13 +44,10 @@ struct e_marketing_iosApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $router.path) {
-                rootContent
-                    .appDestinations(appSession: appSession, router: router)
-            }
-            .environment(appSession)
-            .environment(router)
-            .task { await restoreUserIfNeeded() }
+            rootContent
+                .environment(appSession)
+                .environment(router)
+                .task { await restoreUserIfNeeded() }
         }
     }
 }
@@ -60,7 +57,7 @@ extension e_marketing_iosApp {
     @ViewBuilder
     private var rootContent: some View {
         if appSession.isAuthenticated {
-            HomeView(viewModel: homeViewModel)
+            MainTabView(homeViewModel: homeViewModel)
         } else {
             LoginView(viewModel: loginViewModel)
         }

@@ -60,24 +60,8 @@ extension HomeView {
             Text("home.greeting.subtitle")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-            
-            Spacer()
-            logoutButton
         }
         .padding(.horizontal, 12)
-    }
-    
-    private var logoutButton: some View {
-        Button {
-            appSession.logout()
-            router.reset()
-        } label: {
-            Image(systemName: "rectangle.portrait.and.arrow.right")
-                .font(.body)
-                .foregroundStyle(.secondary)
-        }
-        .accessibilityIdentifier("home.logout")
-        .accessibilityLabel(Text("home.logout.title"))
     }
     
     // MARK: - Banners
