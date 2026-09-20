@@ -35,7 +35,9 @@ extension e_marketing_iosApp {
     @ViewBuilder
     private var rootContent: some View {
         if appSession.isAuthenticated {
-            EmptyView() // TODO: Home View
+            HomeView(viewModel: HomeViewModel(
+                homeUseCase: HomeUseCase(productRepository: ProductRepositoryImpl(client: HTTPClient()))
+            ))
         } else {
             WelcomeView()
         }

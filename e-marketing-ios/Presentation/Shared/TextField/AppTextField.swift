@@ -110,7 +110,7 @@ private struct AppTextFieldPreview: View {
             AppTextField(
                 title: "auth.field.username",
                 text: $username,
-                hint: "johndoe",
+                hint: "auth.field.username.hint",
                 contentType: .username,
                 identifier: "preview.usernameField",
                 field: .username,

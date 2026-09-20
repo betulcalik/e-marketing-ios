@@ -23,6 +23,8 @@ struct AppDestinationView: View {
                         router.reset()
                     }
             ))
+        case .products(let category):
+            ProductsView(category: category)
         }
     }
 }

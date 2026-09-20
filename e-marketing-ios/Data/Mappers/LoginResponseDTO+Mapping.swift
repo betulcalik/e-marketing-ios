@@ -15,7 +15,8 @@ extension LoginResponseDTO {
             user: User(
                 id: id,
                 username: username,
-                email: email
+                email: email,
+                firstName: firstName
             )
         )
     }

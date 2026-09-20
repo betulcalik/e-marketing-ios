@@ -16,7 +16,8 @@ final class MockLoginUseCase: LoginUseCaseProtocol {
             refreshToken: "mock-refresh-token",
             user: User(id: 1,
                        username: username,
-                       email: "\(username)@example.com")
+                       email: "\(username)@example.com",
+                       firstName: "Emily")
         )
     }
 }
