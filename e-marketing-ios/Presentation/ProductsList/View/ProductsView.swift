@@ -17,7 +17,7 @@ struct ProductsView: View {
 
     var body: some View {
         content
-            .navigationTitle(viewModel.category?.categoryDisplayName ?? String(localized: "products.title"))
+            .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .background(Color(.screenBackground))
             .task { await viewModel.loadFirstPage() }
@@ -44,7 +44,7 @@ extension ProductsView {
         } else {
             VStack(spacing: 12) {
                 if let total = viewModel.totalCount {
-                    Text(String(localized: "products.total \(total)"))
+                    Text("products.total \(total)")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -62,6 +62,13 @@ extension ProductsView {
                 )
             }
         }
+    }
+    
+    private var navigationTitle: Text {
+        if let category = viewModel.category {
+            return Text(verbatim: category.categoryDisplayName)
+        }
+        return Text("products.title")
     }
 }
 

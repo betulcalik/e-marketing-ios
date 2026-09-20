@@ -26,6 +26,7 @@ extension ProfileView {
             Spacer(minLength: 32)
             avatar
             userInfo
+            languageSection
             Spacer()
             logoutButton
         }
@@ -68,6 +69,17 @@ extension ProfileView {
                 .foregroundStyle(.secondary)
         }
     }
+    
+    private var languageSection: some View {
+        HStack {
+            Text("profile.language")
+                .font(.headline)
+            
+            Spacer()
+            
+            LanguagePicker()
+        }
+    }
 
     private var logoutButton: some View {
         AppButton(
@@ -87,4 +99,5 @@ extension ProfileView {
     ProfileView()
         .environment(AppSessionStore(keychainTokenStore: KeychainTokenStore()))
         .environment(AppRouter())
+        .environment(LanguageStore(storage: UserDefaultsStore()))
 }

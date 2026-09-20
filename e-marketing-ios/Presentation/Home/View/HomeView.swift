@@ -55,7 +55,7 @@ extension HomeView {
     // MARK: - Header
     private var greetingHeader: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(greeting)
+            greeting
                 .font(.title2.bold())
             
             Text("home.greeting.subtitle")
@@ -116,11 +116,11 @@ extension HomeView {
     }
     
     // MARK: - Helpers
-    private var greeting: String {
+    private var greeting: Text {
         guard let name = appSession.session?.user?.firstName, !name.isEmpty else {
-            return String(localized: "home.greeting.anonymous")
+            return Text("home.greeting.anonymous")
         }
-        return String(localized: "home.greeting.user \(name)")
+        return Text("home.greeting.user \(name)")
     }
 }
 

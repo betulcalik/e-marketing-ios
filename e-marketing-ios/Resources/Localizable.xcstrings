@@ -5,12 +5,25 @@
 
     },
     "******" : {
-
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "******"
+          }
+        }
+      }
     },
     "app.name" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e-Market"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "e-Market"
@@ -27,6 +40,12 @@
             "state" : "translated",
             "value" : "Hide password"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreyi gizle"
+          }
         }
       }
     },
@@ -39,6 +58,12 @@
             "state" : "translated",
             "value" : "Show password"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreyi göster"
+          }
         }
       }
     },
@@ -48,6 +73,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "A better shopping experience"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daha iyi bir alışveriş deneyimi"
           }
         }
       }
@@ -60,6 +91,12 @@
             "state" : "translated",
             "value" : "Incorrect username or password."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanıcı adı veya şifre yanlış."
+          }
         }
       }
     },
@@ -70,6 +107,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Password"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifre"
           }
         }
       }
@@ -82,6 +125,12 @@
             "state" : "translated",
             "value" : "Username"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanıcı Adı"
+          }
         }
       }
     },
@@ -89,6 +138,12 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "johndoe"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "johndoe"
@@ -105,6 +160,12 @@
             "state" : "translated",
             "value" : "Login"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giriş"
+          }
         }
       }
     },
@@ -114,6 +175,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sign in to your account and start shopping."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hesabınıza giriş yapın ve alışverişe başlayın."
           }
         }
       }
@@ -125,6 +192,12 @@
             "state" : "translated",
             "value" : "Welcome back."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekrar hoş geldiniz."
+          }
         }
       }
     },
@@ -135,6 +208,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Categories"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategoriler"
           }
         }
       }
@@ -148,6 +227,28 @@
             "state" : "translated",
             "value" : "OK"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamam"
+          }
+        }
+      }
+    },
+    "English" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "English"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İngilizce"
+          }
         }
       }
     },
@@ -160,6 +261,12 @@
             "state" : "translated",
             "value" : "Something went wrong."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir şeyler yanlış gitti."
+          }
         }
       }
     },
@@ -170,6 +277,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No internet connection. Check your network and try again."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İnternet bağlantısı yok. Ağınızı kontrol edip yeniden deneyin."
           }
         }
       }
@@ -182,6 +295,12 @@
             "state" : "translated",
             "value" : "You don't have permission to perform this action."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu işlemi yapmaya yetkiniz yok."
+          }
         }
       }
     },
@@ -192,6 +311,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Something went wrong. Please try again."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir şeyler yanlış gitti. Lütfen yeniden deneyin."
           }
         }
       }
@@ -205,6 +330,12 @@
             "state" : "translated",
             "value" : "We couldn't find what you're looking for."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aradığınız bulunamadı."
+          }
         }
       }
     },
@@ -217,6 +348,12 @@
             "state" : "translated",
             "value" : "Too many requests. Please wait a moment and try again."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çok fazla istek gönderildi. Lütfen kısa bir süre bekleyip yeniden deneyin."
+          }
         }
       }
     },
@@ -228,6 +365,12 @@
             "state" : "translated",
             "value" : "Retry"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeniden Dene"
+          }
         }
       }
     },
@@ -238,6 +381,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Our servers are having trouble right now. Please try again later."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucularımızda şu an bir sorun var. Lütfen daha sonra tekrar deneyin."
           }
         }
       }
@@ -251,6 +400,12 @@
             "state" : "translated",
             "value" : "Up to %@ off on fashion"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modada %@ indirim"
+          }
         }
       }
     },
@@ -262,6 +417,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mid-Season Sale"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sezon Ortası İndirimi"
           }
         }
       }
@@ -275,6 +436,12 @@
             "state" : "translated",
             "value" : "Fresh tech, fresh looks"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni teknoloji, yeni stil"
+          }
         }
       }
     },
@@ -284,6 +451,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "New Arrivals"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni Gelenler"
           }
         }
       }
@@ -297,6 +470,12 @@
             "state" : "translated",
             "value" : "Cozy up for less"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygun fiyatla evini sıcacık yap"
+          }
         }
       }
     },
@@ -306,6 +485,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Home & Living"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ev & Yaşam"
           }
         }
       }
@@ -318,6 +503,12 @@
             "state" : "translated",
             "value" : "Start shopping"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alışverişe başla"
+          }
         }
       }
     },
@@ -328,6 +519,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "See All"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hepsini Gör"
           }
         }
       }
@@ -341,6 +538,12 @@
             "state" : "translated",
             "value" : "Welcome back"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekrar hoş geldiniz"
+          }
         }
       }
     },
@@ -352,6 +555,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Discover today's deals"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bugünün fırsatlarını keşfedin"
           }
         }
       }
@@ -365,6 +574,12 @@
             "state" : "translated",
             "value" : "Hi, %@"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Merhaba, %@"
+          }
         }
       }
     },
@@ -377,6 +592,12 @@
             "state" : "translated",
             "value" : "Categories"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategoriler"
+          }
         }
       }
     },
@@ -386,6 +607,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Selected for You"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sizin için seçildi"
+          }
+        }
+      }
+    },
+    "product.addToCart" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to Cart"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sepete Ekle"
           }
         }
       }
@@ -397,6 +641,12 @@
             "state" : "translated",
             "value" : "Products"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ürünler"
+          }
         }
       }
     },
@@ -406,6 +656,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Total: %lld"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toplam: %lld"
           }
         }
       }
@@ -417,6 +673,28 @@
             "state" : "translated",
             "value" : "Guest"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Misafir"
+          }
+        }
+      }
+    },
+    "profile.language" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Dil"
+          }
         }
       }
     },
@@ -426,6 +704,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Logout"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çıkış"
           }
         }
       }
@@ -437,6 +721,12 @@
             "state" : "translated",
             "value" : "Home"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anasayfa"
+          }
         }
       }
     },
@@ -446,6 +736,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profile"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil"
+          }
+        }
+      }
+    },
+    "Türkçe" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turkish"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Türkçe"
           }
         }
       }

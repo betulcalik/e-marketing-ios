@@ -14,6 +14,7 @@ struct e_marketing_iosApp: App {
     @State private var homeViewModel: HomeViewModel
     @State private var loginViewModel: LoginViewModel
     
+    private let language = LanguageStore(storage: UserDefaultsStore())
     private let sessionUseCase = SessionUseCase(
         loginRepository: LoginRepositoryImpl(
             client: HTTPClient(keychainTokenStore: KeychainTokenStore())
@@ -45,6 +46,8 @@ struct e_marketing_iosApp: App {
     var body: some Scene {
         WindowGroup {
             rootContent
+                .environment(\.locale, language.locale)
+                .environment(language)
                 .environment(appSession)
                 .environment(router)
                 .task { await restoreUserIfNeeded() }
