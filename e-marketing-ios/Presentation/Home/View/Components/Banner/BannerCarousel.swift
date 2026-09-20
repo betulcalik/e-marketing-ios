@@ -15,72 +15,66 @@ struct Banner: Identifiable {
     let colors: [Color]
 }
 
-/// Horizontally paged campaign banner carousel
 struct BannerCarousel: View {
 
     let banners: [Banner]
     var action: (Banner) -> Void = { _ in }
 
+    @State private var currentIndex: Int? = 0
+
     var body: some View {
+        VStack(spacing: 10) {
+            scrollView
+            pageDots
+        }
+        .task { await autoAdvance() }
+    }
+}
+
+// MARK: - Extensions
+private extension BannerCarousel {
+    var scrollView: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 12) {
                 ForEach(banners) { banner in
-                    card(banner)
-                        .frame(width: 300)
+                    BannerCard(banner: banner) {
+                        action(banner)
+                    }
+                    .frame(width: 340)
+                    .id(banner.id)
                 }
             }
             .scrollTargetLayout()
         }
         .scrollTargetBehavior(.viewAligned)
+        .scrollPosition(id: $currentIndex, anchor: .leading)
         .contentMargins(.horizontal, 12, for: .scrollContent)
     }
-}
 
-// MARK: - Card
-extension BannerCarousel {
-    private func card(_ banner: Banner) -> some View {
-        Button {
-            action(banner)
-        } label: {
-            ZStack(alignment: .bottomLeading) {
-                LinearGradient(colors: banner.colors,
-                               startPoint: .topLeading, endPoint: .bottomTrailing)
-
+    var pageDots: some View {
+        HStack(spacing: 6) {
+            ForEach(banners) { banner in
                 Circle()
-                    .fill(.white.opacity(0.12))
-                    .frame(width: 150, height: 150)
-                    .offset(x: 190, y: -50)
-                Circle()
-                    .fill(.white.opacity(0.08))
-                    .frame(width: 80, height: 80)
-                    .offset(x: -20, y: 110)
-
-                VStack(alignment: .leading, spacing: 6) {
-                    Image(systemName: banner.systemImage)
-                        .font(.title2)
-
-                    Text(banner.title)
-                        .font(.title3.bold())
-                        .lineLimit(2, reservesSpace: true)
-                        .minimumScaleFactor(0.7)
-                        .multilineTextAlignment(.leading)
-
-                    Text(banner.subtitle)
-                        .font(.footnote)
-                        .foregroundStyle(.white.opacity(0.85))
-                        .lineLimit(2, reservesSpace: true)
-                        .minimumScaleFactor(0.7)
-                        .multilineTextAlignment(.leading)
-                }
-                .foregroundStyle(.white)
-                .padding(20)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                    .fill(banner.id == currentIndex ? Color.accentColor : Color(.systemGray3))
+                    .frame(width: 6, height: 6)
+                    .onTapGesture {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            currentIndex = banner.id
+                        }
+                    }
             }
-            .frame(height: 150)
-            .clipShape(RoundedRectangle(cornerRadius: 24))
-            .accessibilityElement(children: .combine)
         }
-        .buttonStyle(.plain)
+    }
+
+    func autoAdvance() async {
+        while !Task.isCancelled {
+            try? await Task.sleep(for: .seconds(4))
+            guard !Task.isCancelled, !banners.isEmpty else { return }
+
+            withAnimation(.easeInOut(duration: 0.4)) {
+                currentIndex = ((currentIndex ?? 0) + 1) % banners.count
+            }
+        }
     }
 }
 
@@ -90,7 +84,9 @@ extension BannerCarousel {
         Banner(id: 0, title: "Mid-Season Sale", subtitle: "Up to 50% off on fashion",
                systemImage: "sparkles", colors: [.indigo, .purple]),
         Banner(id: 1, title: "New Arrivals", subtitle: "Fresh tech, fresh looks",
-               systemImage: "iphone.gen3", colors: [.blue, .cyan])
+               systemImage: "iphone.gen3", colors: [.blue, .cyan]),
+        Banner(id: 2, title: "Home & Living", subtitle: "Cozy up for less",
+               systemImage: "sofa", colors: [.orange, .pink])
     ])
     .padding(.vertical, 24)
 }

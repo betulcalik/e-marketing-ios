@@ -80,29 +80,29 @@ extension HomeView {
             Banner(id: 0, title: "home.banner.1.title", subtitle: "home.banner.1.subtitle \(50.formatted(.percent))",
                    systemImage: "sparkles", colors: [.indigo, .purple]),
             Banner(id: 1, title: "home.banner.2.title", subtitle: "home.banner.2.subtitle",
-                   systemImage: "iphone.gen3", colors: [.blue, .cyan]),
+                   systemImage: "iphone.gen3", colors: [.indigo, .purple]),
             Banner(id: 2, title: "home.banner.3.title", subtitle: "home.banner.3.subtitle",
-                   systemImage: "sofa", colors: [.orange, .pink])
+                   systemImage: "sofa", colors: [.indigo, .purple])
         ]
     }
     
     private var bannersSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("home.section.banners")
-                .font(.title3.bold())
-                .padding(.horizontal, 12)
-
-            BannerCarousel(banners: mockBanners) { _ in
-                router.push(.products(category: nil))
-            }
+        BannerCarousel(banners: mockBanners) { _ in
+            router.push(.products(category: nil))
         }
     }
     
     // MARK: - Categories
     private var categoriesSection: some View {
-        CategoriesList(categories: viewModel.categories) { category in
-            router.push(.products(category: category))
-        }
+        CategoriesList(
+            categories: Array(viewModel.categories.prefix(8)),
+            action: { category in
+                router.push(.products(category: category))
+            },
+            seeAllAction: {
+                router.push(.categories)
+            }
+        )
     }
     
     // MARK: - Helpers

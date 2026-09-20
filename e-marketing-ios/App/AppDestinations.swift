@@ -23,6 +23,10 @@ struct AppDestinationView: View {
                         router.reset()
                     }
                 ))
+        case .categories:
+            CategoriesView(viewModel: CategoriesViewModel(
+                homeUseCase: HomeUseCase(productRepository: ProductRepositoryImpl(client: HTTPClient(keychainTokenStore: KeychainTokenStore())))
+            ))
         case .products(let category):
             ProductsView(viewModel: ProductsViewModel(
                 category: category,

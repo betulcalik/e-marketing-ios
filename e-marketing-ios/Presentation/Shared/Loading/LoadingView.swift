@@ -21,7 +21,7 @@ struct LoadingView: View {
                     .foregroundStyle(.secondary)
             }
         }
-        .frame(maxWidth: .infinity, minHeight: 300)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
