@@ -97,7 +97,5 @@ extension ProfileView {
 // MARK: - Previews
 #Preview("Profile") {
     ProfileView()
-        .environment(AppSessionStore(keychainTokenStore: KeychainTokenStore()))
-        .environment(AppRouter())
-        .environment(LanguageStore(storage: UserDefaultsStore()))
+        .previewAppEnvironment()
 }

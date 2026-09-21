@@ -55,6 +55,6 @@ extension LanguagePicker {
 // MARK: - Previews
 #Preview("LanguagePicker") {
     LanguagePicker()
-        .environment(LanguageStore(storage: UserDefaultsStore()))
+        .previewAppEnvironment()
         .padding(24)
 }

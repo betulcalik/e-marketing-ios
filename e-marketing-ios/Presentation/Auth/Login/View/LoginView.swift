@@ -153,5 +153,5 @@ extension LoginView {
 // MARK: - Previews
 #Preview("Login") {
     LoginView(viewModel: .preview)
-        .environment(AppSessionStore(keychainTokenStore: KeychainTokenStore()))
+        .previewAppEnvironment()
 }

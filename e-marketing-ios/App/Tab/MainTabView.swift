@@ -39,12 +39,7 @@ struct MainTabView: View {
 // MARK: - Previews
 #if DEBUG
 #Preview("MainTab") {
-    MainTabView(
-            homeViewModel: .preview,
-            client: HTTPClient(logger: NetworkLogger(),
-                               interceptors: [AuthInterceptor(tokenStore: KeychainTokenStore())])
-        )
-        .environment(AppSessionStore(keychainTokenStore: KeychainTokenStore()))
-        .environment(AppRouter())
+    MainTabView(homeViewModel: .preview, client: HTTPClient.preview)
+        .previewAppEnvironment()
 }
 #endif

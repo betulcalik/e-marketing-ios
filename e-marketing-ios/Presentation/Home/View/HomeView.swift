@@ -127,6 +127,5 @@ extension HomeView {
 // MARK: - Previews
 #Preview("Home") {
     HomeView(viewModel: .preview)
-        .environment(AppSessionStore(keychainTokenStore: KeychainTokenStore()))
-        .environment(AppRouter())
+        .previewAppEnvironment()
 }

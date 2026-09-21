@@ -56,6 +56,6 @@ extension CategoriesView {
     NavigationStack {
         CategoriesView(viewModel: .preview)
     }
-    .environment(AppRouter())
+    .previewAppEnvironment()
 }
 #endif
