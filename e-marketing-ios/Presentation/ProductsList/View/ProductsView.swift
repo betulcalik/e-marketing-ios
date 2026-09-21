@@ -75,4 +75,5 @@ extension ProductsView {
 // MARK: - Previews
 #Preview("Products") {
     ProductsView(viewModel: .preview)
+        .previewAppEnvironment()
 }

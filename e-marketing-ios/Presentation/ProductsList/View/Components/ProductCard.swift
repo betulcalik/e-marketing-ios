@@ -51,11 +51,7 @@ struct ProductCard: View {
 private extension ProductCard {
 
     var thumbnailView: some View {
-        AsyncImage(url: product.thumbnail) { image in
-            image.resizable().scaledToFill()
-        } placeholder: {
-            Color(.systemGray5)
-        }
+        RemoteImage(url: product.thumbnail)
         .frame(width: 84, height: 84)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
@@ -104,4 +100,5 @@ private extension ProductCard {
     )
     .padding(24)
     .background(Color(.screenBackground))
+    .previewAppEnvironment()
 }

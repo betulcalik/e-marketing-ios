@@ -35,14 +35,7 @@ extension ProfileView {
     }
 
     private var avatar: some View {
-        AsyncImage(url: appSession.session?.user?.image) { image in
-            image.resizable().scaledToFill()
-        } placeholder: {
-            Image(systemName: "person.circle.fill")
-                .resizable()
-                .scaledToFit()
-                .foregroundStyle(.tertiary)
-        }
+        RemoteImage(url: appSession.session?.user?.image)
         .frame(width: 96, height: 96)
         .clipShape(Circle())
     }

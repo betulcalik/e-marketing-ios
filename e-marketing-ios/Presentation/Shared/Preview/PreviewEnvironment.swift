@@ -12,12 +12,14 @@ extension View {
         let session = session ?? AppSessionStore(keychainTokenStore: KeychainTokenStore())
         let router = AppRouter()
         let language = language ?? LanguageStore(storage: UserDefaultsStore())
+        let imageLoader = ImageLoader()
 
         return self
             .environment(\.locale, language.locale)
             .environment(language)
             .environment(session)
             .environment(router)
+            .environment(imageLoader)
     }
 }
 

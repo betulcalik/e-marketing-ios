@@ -49,4 +49,5 @@ struct ProductsList: View {
         },
         isLoadingMore: true
     )
+    .previewAppEnvironment()
 }

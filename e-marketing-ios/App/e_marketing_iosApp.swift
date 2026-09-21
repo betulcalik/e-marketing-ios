@@ -17,6 +17,7 @@ struct e_marketing_iosApp: App {
     private let language = LanguageStore(storage: UserDefaultsStore())
     private let sessionUseCase: SessionUseCaseProtocol
     private let client: HTTPClientProtocol
+    private let imageLoader = ImageLoader()
     
     init() {
         let keychain = KeychainTokenStore()
@@ -48,6 +49,7 @@ struct e_marketing_iosApp: App {
             rootContent
                 .environment(\.locale, language.locale)
                 .environment(language)
+                .environment(imageLoader)
                 .environment(appSession)
                 .environment(router)
                 .task { await restoreUserIfNeeded() }
