@@ -91,7 +91,9 @@ final class HTTPClient: HTTPClientProtocol {
 
     // MARK: - Debug Logging
     private func debugLog(_ message: String) {
+        #if DEBUG
         debugPrint("🌐 [HTTP] \(message)")
+        #endif
     }
 
     private func redactedBodyString(of data: Data?) -> String {
