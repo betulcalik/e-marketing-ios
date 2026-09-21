@@ -16,16 +16,18 @@ struct e_marketing_iosApp: App {
 
     private let language = LanguageStore(storage: UserDefaultsStore())
     private let sessionUseCase: SessionUseCaseProtocol
-
+    private let client: HTTPClientProtocol
+    
     init() {
         let keychain = KeychainTokenStore()
-        let client = HTTPClient(logger: NetworkLogger(),
-                                interceptors: [AuthInterceptor(tokenStore: keychain)])
-
+        let router = AppRouter()
+        
         let sessionStore = AppSessionStore(keychainTokenStore: keychain)
         sessionStore.restore()
-        let router = AppRouter()
-
+        
+        self.client = HTTPClient(logger: NetworkLogger(),
+                                 interceptors: [AuthInterceptor(tokenStore: keychain)])
+        
         _appSession = State(initialValue: sessionStore)
         _router = State(initialValue: router)
         _homeViewModel = State(initialValue: HomeViewModel(
@@ -58,7 +60,7 @@ extension e_marketing_iosApp {
     @ViewBuilder
     private var rootContent: some View {
         if appSession.isAuthenticated {
-            MainTabView(homeViewModel: homeViewModel)
+            MainTabView(homeViewModel: homeViewModel, client: client)
         } else {
             LoginView(viewModel: loginViewModel)
         }

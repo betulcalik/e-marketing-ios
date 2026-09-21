@@ -10,13 +10,15 @@ import SwiftUI
 extension View {
     func appDestinations(
         appSession: AppSessionStore,
-        router: AppRouter
+        router: AppRouter,
+        client: HTTPClientProtocol
     ) -> some View {
         navigationDestination(for: AppRoute.self) { route in
             AppDestinationView(
                 route: route,
                 appSession: appSession,
-                router: router
+                router: router,
+                client: client
             )
         }
     }

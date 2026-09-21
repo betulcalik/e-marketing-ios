@@ -11,26 +11,21 @@ struct AppDestinationView: View {
     let route: AppRoute
     let appSession: AppSessionStore
     let router: AppRouter
-
+    let client: HTTPClientProtocol
+    
     var body: some View {
         switch route {
         case .categories:
             CategoriesView(viewModel: CategoriesViewModel(
                 homeUseCase: HomeUseCase(
                     productRepository: ProductRepositoryImpl(
-                        client: HTTPClient(
-                            logger: NetworkLogger(),
-                            interceptors: [AuthInterceptor(tokenStore: KeychainTokenStore())])))
-            ))
+                        client: client))))
         case .products(let category):
             ProductsView(viewModel: ProductsViewModel(
                 category: category,
                 productsUseCase: ProductsUseCase(
                     productRepository: ProductRepositoryImpl(
-                        client: HTTPClient(
-                            logger: NetworkLogger(),
-                            interceptors: [AuthInterceptor(tokenStore: KeychainTokenStore())]))
-                ),
+                        client: client)),
                 onSessionExpired: {
                     appSession.expireSession()
                     router.reset()

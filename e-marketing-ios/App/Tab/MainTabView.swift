@@ -11,6 +11,7 @@ import SwiftUI
 struct MainTabView: View {
 
     let homeViewModel: HomeViewModel
+    let client: HTTPClientProtocol
 
     @Environment(AppSessionStore.self) private var appSession
     @Environment(AppRouter.self) private var router
@@ -21,7 +22,7 @@ struct MainTabView: View {
         TabView {
             NavigationStack(path: $router.path) {
                 HomeView(viewModel: homeViewModel)
-                    .appDestinations(appSession: appSession, router: router)
+                    .appDestinations(appSession: appSession, router: router, client: client)
             }
             .tabItem {
                 Label("tab.home", systemImage: "house")
@@ -38,7 +39,11 @@ struct MainTabView: View {
 // MARK: - Previews
 #if DEBUG
 #Preview("MainTab") {
-    MainTabView(homeViewModel: .preview)
+    MainTabView(
+            homeViewModel: .preview,
+            client: HTTPClient(logger: NetworkLogger(),
+                               interceptors: [AuthInterceptor(tokenStore: KeychainTokenStore())])
+        )
         .environment(AppSessionStore(keychainTokenStore: KeychainTokenStore()))
         .environment(AppRouter())
 }
