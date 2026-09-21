@@ -12,6 +12,16 @@ struct HomeView: View {
     @Environment(AppSessionStore.self) private var appSession
     @Environment(AppRouter.self) private var router
     @State private var viewModel: HomeViewModel
+    
+    private let mockBanners: [Banner] = [
+        Banner(id: 0, title: "home.banner.1.title",
+               subtitle: "home.banner.1.subtitle \(50.formatted(.percent))",
+               systemImage: "sparkles", colors: [.indigo, .purple]),
+        Banner(id: 1, title: "home.banner.2.title", subtitle: "home.banner.2.subtitle",
+               systemImage: "iphone.gen3", colors: [.indigo, .purple]),
+        Banner(id: 2, title: "home.banner.3.title", subtitle: "home.banner.3.subtitle",
+               systemImage: "sofa", colors: [.indigo, .purple])
+    ]
 
     init(viewModel: HomeViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -66,17 +76,6 @@ extension HomeView {
     }
     
     // MARK: - Banners
-    private var mockBanners: [Banner] {
-        [
-            Banner(id: 0, title: "home.banner.1.title", subtitle: "home.banner.1.subtitle \(50.formatted(.percent))",
-                   systemImage: "sparkles", colors: [.indigo, .purple]),
-            Banner(id: 1, title: "home.banner.2.title", subtitle: "home.banner.2.subtitle",
-                   systemImage: "iphone.gen3", colors: [.indigo, .purple]),
-            Banner(id: 2, title: "home.banner.3.title", subtitle: "home.banner.3.subtitle",
-                   systemImage: "sofa", colors: [.indigo, .purple])
-        ]
-    }
-    
     private var bannersSection: some View {
         BannerCarousel(banners: mockBanners) { _ in
             router.push(.products(category: nil))

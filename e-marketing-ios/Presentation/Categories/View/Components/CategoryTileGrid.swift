@@ -16,7 +16,7 @@ struct CategoryTileGrid: View {
 
     var body: some View {
         LazyVGrid(columns: columns, spacing: 12) {
-            ForEach(Array(categories.enumerated()), id: \.element) { index, category in
+            ForEach(categories, id: \.self) { category in
                 CategoryCard(category: category, backgroundColor: .categoryBackground) {
                     action(category)
                 }
