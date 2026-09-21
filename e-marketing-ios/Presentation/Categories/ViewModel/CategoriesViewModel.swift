@@ -40,6 +40,11 @@ final class CategoriesViewModel {
         }
     }
 
+    func loadIfNeeded() async {
+        guard categories.isEmpty else { return }
+        await load()
+    }
+
     func retry() {
         retryCount += 1
     }

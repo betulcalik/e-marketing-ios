@@ -22,7 +22,7 @@ struct CategoriesView: View {
             .navigationTitle("categories.title")
             .navigationBarTitleDisplayMode(.inline)
             .background(Color(.screenBackground))
-            .task(id: viewModel.retryCount) { await viewModel.load() }
+            .task(id: viewModel.retryCount) { await viewModel.loadIfNeeded() }
     }
 }
 

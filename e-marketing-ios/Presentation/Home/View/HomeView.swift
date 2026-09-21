@@ -21,7 +21,7 @@ struct HomeView: View {
         content
             .toolbar(.hidden, for: .navigationBar)
             .background(Color(.screenBackground))
-            .task(id: viewModel.retryCount) { await viewModel.load() }
+            .task(id: viewModel.retryCount) { await viewModel.loadIfNeeded() }
             .refreshable { await viewModel.load() }
     }
 }

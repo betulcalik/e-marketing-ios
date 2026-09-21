@@ -20,7 +20,7 @@ struct ProductsView: View {
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .background(Color(.screenBackground))
-            .task(id: viewModel.retryCount) { await viewModel.loadFirstPage() }
+            .task(id: viewModel.retryCount) { await viewModel.loadIfNeeded() }
             .refreshable { await viewModel.loadFirstPage() }
             .errorAlert(
                 error: viewModel.products.isEmpty ? nil : viewModel.error,

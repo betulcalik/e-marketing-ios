@@ -94,7 +94,12 @@ final class ProductsViewModel {
             self.error = .unknown
         }
     }
-    
+
+    func loadIfNeeded() async {
+        guard products.isEmpty else { return }
+        await loadFirstPage()
+    }
+
     func retry() {
         retryCount += 1
     }
