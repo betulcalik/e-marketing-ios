@@ -73,7 +73,7 @@ extension e_marketing_iosApp {
             let user = try await sessionUseCase.getCurrentUser()
             appSession.updateUser(user)
         } catch let error as AppError where error.isSessionExpired {
-            appSession.logout()
+            appSession.expireSession()
             router.reset()
         } catch {
             // Display anonymous welcome

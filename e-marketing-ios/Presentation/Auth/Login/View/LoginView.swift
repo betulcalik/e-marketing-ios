@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginView: View {
     
     @State private var viewModel: LoginViewModel
+    @Environment(AppSessionStore.self) private var appSession
     @FocusState private var focusedField: Field?
     
     private enum Field {
@@ -34,6 +35,8 @@ struct LoginView: View {
         .background(BackgroundView())
         .simultaneousGesture(TapGesture().onEnded { focusedField = nil })
         .errorAlert(error: viewModel.error, onDismiss: viewModel.clearError)
+        .overlay(alignment: .top) { sessionExpiredToast }
+        .animation(.spring(duration: 0.4), value: appSession.sessionExpiredNotice)
     }
 }
 
@@ -127,6 +130,20 @@ extension LoginView {
         )
     }
     
+    @ViewBuilder
+    private var sessionExpiredToast: some View {
+        if appSession.sessionExpiredNotice {
+            AppToast(
+                messageKey: "error.unauthorized",
+                systemImage: "clock.badge.exclamationmark",
+                tint: .orange
+            ) {
+                appSession.dismissSessionExpiredNotice()
+            }
+            .accessibilityIdentifier("login.sessionExpiredToast")
+        }
+    }
+    
     private func submit() {
         focusedField = nil
         Task { await viewModel.submit() }
@@ -136,4 +153,5 @@ extension LoginView {
 // MARK: - Previews
 #Preview("Login") {
     LoginView(viewModel: .preview)
+        .environment(AppSessionStore(keychainTokenStore: KeychainTokenStore()))
 }

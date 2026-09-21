@@ -25,7 +25,7 @@ struct AppDestinationView: View {
                     productRepository: ProductRepositoryImpl(client: HTTPClient(keychainTokenStore: KeychainTokenStore()))
                 ),
                 onSessionExpired: {
-                    appSession.logout()
+                    appSession.expireSession()
                     router.reset()
                 }
             ))
