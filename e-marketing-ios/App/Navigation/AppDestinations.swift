@@ -16,13 +16,20 @@ struct AppDestinationView: View {
         switch route {
         case .categories:
             CategoriesView(viewModel: CategoriesViewModel(
-                homeUseCase: HomeUseCase(productRepository: ProductRepositoryImpl(client: HTTPClient(keychainTokenStore: KeychainTokenStore())))
+                homeUseCase: HomeUseCase(
+                    productRepository: ProductRepositoryImpl(
+                        client: HTTPClient(
+                            logger: NetworkLogger(),
+                            interceptors: [AuthInterceptor(tokenStore: KeychainTokenStore())])))
             ))
         case .products(let category):
             ProductsView(viewModel: ProductsViewModel(
                 category: category,
                 productsUseCase: ProductsUseCase(
-                    productRepository: ProductRepositoryImpl(client: HTTPClient(keychainTokenStore: KeychainTokenStore()))
+                    productRepository: ProductRepositoryImpl(
+                        client: HTTPClient(
+                            logger: NetworkLogger(),
+                            interceptors: [AuthInterceptor(tokenStore: KeychainTokenStore())]))
                 ),
                 onSessionExpired: {
                     appSession.expireSession()

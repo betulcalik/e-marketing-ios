@@ -13,34 +13,32 @@ struct e_marketing_iosApp: App {
     @State private var router = AppRouter()
     @State private var homeViewModel: HomeViewModel
     @State private var loginViewModel: LoginViewModel
-    
+
     private let language = LanguageStore(storage: UserDefaultsStore())
-    private let sessionUseCase = SessionUseCase(
-        loginRepository: LoginRepositoryImpl(
-            client: HTTPClient(keychainTokenStore: KeychainTokenStore())
-        )
-    )
-    
+    private let sessionUseCase: SessionUseCaseProtocol
+
     init() {
         let keychain = KeychainTokenStore()
+        let client = HTTPClient(logger: NetworkLogger(),
+                                interceptors: [AuthInterceptor(tokenStore: keychain)])
+
         let sessionStore = AppSessionStore(keychainTokenStore: keychain)
         sessionStore.restore()
         let router = AppRouter()
-        
+
         _appSession = State(initialValue: sessionStore)
         _router = State(initialValue: router)
         _homeViewModel = State(initialValue: HomeViewModel(
-            homeUseCase: HomeUseCase(productRepository: ProductRepositoryImpl(
-                client: HTTPClient(keychainTokenStore: keychain)))
+            homeUseCase: HomeUseCase(productRepository: ProductRepositoryImpl(client: client))
         ))
         _loginViewModel = State(initialValue: LoginViewModel(
-            loginUseCase: LoginUseCase(loginRepository: LoginRepositoryImpl(
-                client: HTTPClient(keychainTokenStore: keychain))),
+            loginUseCase: LoginUseCase(loginRepository: LoginRepositoryImpl(client: client)),
             onAuthenticated: { session in
                 sessionStore.login(session: session)
                 router.reset()
             }
         ))
+        self.sessionUseCase = SessionUseCase(loginRepository: LoginRepositoryImpl(client: client))
     }
 
     var body: some Scene {

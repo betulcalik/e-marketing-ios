@@ -15,20 +15,28 @@ protocol HTTPClientProtocol {
 final class HTTPClient: HTTPClientProtocol {
 
     private let session: URLSession
-    private let keychainTokenStore: KeychainTokenStoring
+    private let logger: NetworkLogger
+    private let interceptors: [any RequestInterceptor]
+    
+    private let decoder = JSONDecoder()
+    private let encoder = JSONEncoder()
 
-    init(session: URLSession = .shared, keychainTokenStore: KeychainTokenStoring) {
+    init(session: URLSession = .shared,
+         logger: NetworkLogger,
+         interceptors: [any RequestInterceptor]) {
         self.session = session
-        self.keychainTokenStore = keychainTokenStore
+        self.logger = logger
+        self.interceptors = interceptors
     }
 
+    // MARK: - Send
     func send<T: Decodable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T {
         let data = try await performRequest(for: endpoint)
 
         do {
-            return try JSONDecoder().decode(T.self, from: data)
+            return try decoder.decode(T.self, from: data)
         } catch {
-            debugLog("❌ Decode failed: \(error)")
+            logger.failure(path: endpoint.path, error: error)
             throw AppError.decodingError
         }
     }
@@ -36,8 +44,7 @@ final class HTTPClient: HTTPClientProtocol {
     // MARK: - Private
     private func performRequest(for endpoint: Endpoint) async throws -> Data {
         let request = try makeRequest(for: endpoint)
-        
-        debugLog("→ [\(endpoint.path)] \(request.httpMethod ?? "") • \(request.url?.absoluteString ?? "") • body: \(redactedBodyString(of: request.httpBody))")
+        logger.request(request, body: request.httpBody)
 
         do {
             let (data, response) = try await session.data(for: request)
@@ -45,7 +52,7 @@ final class HTTPClient: HTTPClientProtocol {
                 throw AppError.invalidResponse
             }
 
-            debugLog("← [\(endpoint.path)] \(http.statusCode) • \(redactedBodyString(of: data))")
+            logger.response(path: endpoint.path, statusCode: http.statusCode, data: data)
 
             try validate(statusCode: http.statusCode)
             return data
@@ -53,8 +60,8 @@ final class HTTPClient: HTTPClientProtocol {
             if error.code == .cancelled {
                 throw CancellationError()
             }
-            
-            debugLog("❌ Error: \(error)")
+
+            logger.failure(path: endpoint.path, error: error)
             throw appError(from: error)
         }
     }
@@ -78,47 +85,18 @@ final class HTTPClient: HTTPClientProtocol {
         request.allHTTPHeaderFields = endpoint.headers
         
         if let body = endpoint.body {
-            request.httpBody = try JSONEncoder().encode(body)
+            request.httpBody = try encoder.encode(body)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
 
-        if let tokenPair = keychainTokenStore.read() {
-            request.setValue("Bearer \(tokenPair.accessToken)", forHTTPHeaderField: "Authorization")
+        /// Add interceptors
+        for interceptor in interceptors {
+            interceptor.intercept(&request)
         }
-        
+
         return request
     }
 
-    // MARK: - Debug Logging
-    private func debugLog(_ message: String) {
-        #if DEBUG
-        debugPrint("🌐 [HTTP] \(message)")
-        #endif
-    }
-
-    private func redactedBodyString(of data: Data?) -> String {
-        guard let data,
-              let json = try? JSONSerialization.jsonObject(with: data) else {
-            return "-"
-        }
-        return String(describing: redact(json))
-    }
-    
-    private func redact(_ value: Any) -> Any {
-        let sensitiveKeys: Set<String> = ["accessToken", "refreshToken", "token", "password"]
-        
-        if var dict = value as? [String: Any] {
-            for (key, val) in dict {
-                dict[key] = sensitiveKeys.contains(key) ? "•••" : redact(val)
-            }
-            return dict
-        }
-        if let array = value as? [Any] {
-            return array.map(redact)
-        }
-        return value
-    }
-    
     private func validate(statusCode: Int) throws {
         switch statusCode {
         case 200...299:
