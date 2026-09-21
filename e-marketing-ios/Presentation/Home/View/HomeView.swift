@@ -21,7 +21,7 @@ struct HomeView: View {
         content
             .toolbar(.hidden, for: .navigationBar)
             .background(Color(.screenBackground))
-            .task { await viewModel.load() }
+            .task(id: viewModel.retryCount) { await viewModel.load() }
             .refreshable { await viewModel.load() }
     }
 }
@@ -36,7 +36,7 @@ extension HomeView {
                 } else if viewModel.shouldShowError {
                     ErrorView(error: viewModel.error ?? .unknown,
                               identifier: "home.retry") {
-                        Task { await viewModel.load() }
+                        viewModel.retry()
                     }
                     .frame(minHeight: 300)
                 } else {

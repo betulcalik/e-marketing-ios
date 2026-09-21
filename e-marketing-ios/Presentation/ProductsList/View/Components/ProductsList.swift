@@ -11,7 +11,7 @@ struct ProductsList: View {
 
     let products: [Product]
     var isLoadingMore: Bool = false
-    var onProductAppear: (Product) -> Void = { _ in }
+    var onProductAppear: (Product) async -> Void = { _ in }
     var onAddToCart: (Product) -> Void = { _ in }
 
     var body: some View {
@@ -21,8 +21,8 @@ struct ProductsList: View {
                     ProductCard(product: product) {
                         onAddToCart(product)
                     }
-                    .onAppear {
-                        onProductAppear(product)
+                    .task(id: product.id) {
+                        await onProductAppear(product)
                     }
                 }
 

@@ -22,7 +22,7 @@ struct CategoriesView: View {
             .navigationTitle("categories.title")
             .navigationBarTitleDisplayMode(.inline)
             .background(Color(.screenBackground))
-            .task { await viewModel.load() }
+            .task(id: viewModel.retryCount) { await viewModel.load() }
     }
 }
 
@@ -35,7 +35,7 @@ extension CategoriesView {
             LoadingView()
         } else if viewModel.categories.isEmpty, viewModel.error != nil {
             ErrorView(error: viewModel.error ?? .unknown, identifier: "categories.retry") {
-                Task { await viewModel.load() }
+                viewModel.retry()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {

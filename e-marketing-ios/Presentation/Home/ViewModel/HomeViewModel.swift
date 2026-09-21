@@ -15,6 +15,7 @@ final class HomeViewModel {
     
     private(set) var isSubmitting = false
     private(set) var error: AppError?
+    private(set) var retryCount = 0
 
     var shouldShowContent: Bool { !categories.isEmpty }
     var shouldShowLoading: Bool { categories.isEmpty && isSubmitting }
@@ -47,6 +48,10 @@ final class HomeViewModel {
         } catch {
             self.error = .unknown
         }
+    }
+
+    func retry() {
+        retryCount += 1
     }
 
     func clearError() {

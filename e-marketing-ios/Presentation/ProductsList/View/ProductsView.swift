@@ -20,7 +20,7 @@ struct ProductsView: View {
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .background(Color(.screenBackground))
-            .task { await viewModel.loadFirstPage() }
+            .task(id: viewModel.retryCount) { await viewModel.loadFirstPage() }
             .refreshable { await viewModel.loadFirstPage() }
             .errorAlert(
                 error: viewModel.products.isEmpty ? nil : viewModel.error,
@@ -38,7 +38,7 @@ extension ProductsView {
             LoadingView()
         } else if viewModel.shouldShowError {
             ErrorView(error: viewModel.error ?? .unknown, identifier: "products.retry") {
-                Task { await viewModel.loadFirstPage() }
+                viewModel.retry()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
@@ -56,7 +56,7 @@ extension ProductsView {
                     products: viewModel.products,
                     isLoadingMore: viewModel.isLoadingMore,
                     onProductAppear: { product in
-                        Task { await viewModel.loadMoreIfNeeded(current: product) }
+                        await viewModel.loadMoreIfNeeded(current: product)
                     },
                     onAddToCart: { _ in }
                 )

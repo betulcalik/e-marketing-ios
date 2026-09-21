@@ -14,6 +14,7 @@ final class CategoriesViewModel {
     private(set) var categories: [String] = []
     private(set) var isLoading = false
     private(set) var error: AppError?
+    private(set) var retryCount = 0
 
     private let homeUseCase: HomeUseCaseProtocol
 
@@ -37,6 +38,10 @@ final class CategoriesViewModel {
         } catch {
             self.error = .unknown
         }
+    }
+
+    func retry() {
+        retryCount += 1
     }
 
     func clearError() {

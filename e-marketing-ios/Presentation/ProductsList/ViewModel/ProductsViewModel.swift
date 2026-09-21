@@ -15,6 +15,7 @@ final class ProductsViewModel {
     private(set) var isLoadingMore = false
     private(set) var isFinished = false
     private(set) var error: AppError?
+    private(set) var retryCount = 0
     private(set) var totalCount: Int?
     
     let category: String?
@@ -94,6 +95,10 @@ final class ProductsViewModel {
         }
     }
     
+    func retry() {
+        retryCount += 1
+    }
+
     func clearError() {
         error = nil
     }
