@@ -61,7 +61,7 @@ private extension e_marketing_iosUITests {
     /// Keychain survives reinstalls on the simulator
     func logoutIfAuthenticated() {
         guard !app.textFields["login.usernameField"].waitForExistence(timeout: 2) else { return }
-        app.tabBars.buttons.element(boundBy: 1).tap() // Tap Profile page
+        app.tabBars.buttons["tab.profile"].tap()
 
         let logout = app.buttons["profile.logout"]
         XCTAssertTrue(logout.waitForExistence(timeout: 10))

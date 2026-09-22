@@ -32,6 +32,7 @@ struct MainTabView: View {
                 .tabItem {
                     Label("tab.profile", systemImage: "person")
                 }
+                .accessibilityIdentifier("tab.profile")
         }
     }
 }
