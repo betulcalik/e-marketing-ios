@@ -92,7 +92,7 @@ Users see errors on three fixed surfaces, one policy:
 | No internet (popup) | ![Popup](Docs/Errors/no-internet-error-popup.png) |
 | Timeout | ![Timeout](Docs/Errors/timed-out-error-view.png) |
 | Generic error popup | ![Error](Docs/Errors/error-popup.png) |
-| Expired session | ![Toast](Docs/Errors/session-expired-toast.mp4) |
+| Expired session | ![Toast](Docs/Errors/session-expired-toast.gif) |
 
 ## Performance
 
