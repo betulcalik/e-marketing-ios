@@ -11,6 +11,7 @@ struct CategoryCard: View {
 
     let category: String
     let backgroundColor: Color
+    var identifierPrefix: String = "home.category."
     let action: () -> Void
 
     var body: some View {
@@ -35,8 +36,7 @@ struct CategoryCard: View {
             .background(backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 14))
         }
-        .buttonStyle(.plain)
-        .accessibilityIdentifier("home.category.\(category)")
+        .accessibilityIdentifier(identifierPrefix + category)
     }
 }
 

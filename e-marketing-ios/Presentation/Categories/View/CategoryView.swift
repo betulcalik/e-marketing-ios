@@ -40,7 +40,8 @@ extension CategoriesView {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             ScrollView {
-                CategoryTileGrid(categories: viewModel.categories) { category in
+                CategoryTileGrid(categories: viewModel.categories,
+                                 identifierPrefix: "categories.item.") { category in
                     router.push(.products(category: category))
                 }
                 .padding(.horizontal, 24)
